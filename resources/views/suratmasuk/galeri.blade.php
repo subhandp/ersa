@@ -26,11 +26,21 @@
                                 <div class="inner">
                                     <a href="{{URL::to('/')}}/datasuratmasuk/{{$suratmasuk->filemasuk}}"
                                         data-toggle="lightbox" data-title="Perbesar Gambar">
+
+                                        @if ($fileIsPdf)
+                                        <center>
+                                        <img src="{{URL::to('/')}}/general/pdf-icon.jpg"
+                                                width="100" height="150"
+                                                alt="PDF is not loaded">
+                                        </center>
+                                        @else
                                         <center>
                                             <img src="{{URL::to('/')}}/datasuratmasuk/{{$suratmasuk->filemasuk}}"
                                                 width="100" height="150"
-                                                alt="File .doc, .docx, atau .pdf tidak dapat ditampilkan, Silahkan klik Lihat Detail File">
+                                                alt="Klik Lihat Detail File">
                                         </center>
+                                        @endif
+
                                     </a>
                                 </div>
                                 <a href="/suratmasuk/{{$suratmasuk->id}}/tampil"

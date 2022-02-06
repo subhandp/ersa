@@ -45,6 +45,6 @@ class TambahForeignKeyConstraint extends Migration
      */
     public function down()
     {
-        //
+        
     }
 }

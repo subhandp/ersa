@@ -52,13 +52,40 @@
                     <label for="keterangan">Keterangan</label>
                     <input value="{{old('keterangan')}}" name="keterangan" type="text" class="form-control bg-light"
                         id="keterangan" placeholder="Keterangan" required>
-                    <div class="form-group">
-                        <label for="exampleFormControlFile1">File</label>
-                        <input name="filemasuk" type="file" class="form-control-file" id="exampleFormControlFile1"
-                            required>
+                    
+
+                </div>
+                <div class="col-12">
+                
+
+                <div class="form-group">
+                        <!-- <label for="exampleFormControlFile1">File</label>
+                        <input name="filemasuk[]" type="file" class="form-control-file" id="exampleFormControlFile1" multiple required>
                         <small id="exampleFormControlFile1" class="text-danger">
                             Pastikan file anda ( jpg,jpeg,png,doc,docx,pdf ) !!!
-                        </small>
+                        </small> -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scan">Scan berkas</label>
+                        <div class="container">
+                            <div class="row" id="th_container">
+                                <div class="col-md-12 mb-1 text-secondary" id="th_container_empty">No scanned images</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" id="btn-scan">Scan</button>
+                                    <button class="btn btn-success" id="btn-upload" style="display:none;">Upload image(s)</button>
+                                    <p class="text-danger mt-1" id="download-app" style="display:none;">No Scan app application found in your machine. Please download, install and open first then refresh the browser. <a href="Scan_App_SetUp.msi" download>Download app</a></p>
+                                    <p class="mt-3">This expample shows how to make preview scanned images, rotate images if necessary and upload images to the server.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <input name="upload[]" type="file" id="upload"  multiple/>
+
+                        
                     </div>
                 </div>
             </div>
@@ -66,7 +93,26 @@
             <button type="submit" class="btn btn-success btn-sm "><i class="fas fa-save"></i> SIMPAN</button>
             <a class="btn btn-danger btn-sm" href="index" role="button"><i class="fas fa-undo"></i> BATAL</a>
         </form>
+
+
+
     </div>
     </div>
 </section>
+@endsection
+
+
+@section('file-pond-create')
+<script>
+    FilePond.setOptions({
+        server: {
+            process:  '/filepond/process',
+            revert: '/filepond/revert',
+            headers: {
+                'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+            }
+        },
+        
+    });
+</script>
 @endsection

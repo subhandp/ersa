@@ -24,9 +24,15 @@
                 </div>
             </form>
             <div class="text-center">
-                <img src="{{URL::to('/')}}/datasuratmasuk/{{$suratmasuk->filemasuk}}" class="rounded" width="900"
-                    alt="File Tidak Dapat Ditampilkan Silahkan Klik Download Untuk Melihat" />
-            </div>
+            
+                @if ($fileIsPdf)
+                    <iframe src="{{URL::to('/')}}/datasuratmasuk/{{$suratmasuk->filemasuk}}" width="100%" height="700">
+                @else
+                    <img src="{{URL::to('/')}}/datasuratmasuk/{{$suratmasuk->filemasuk}}" class="rounded" width="900"
+                        alt="Selain file gambar (jpg,png) Tidak Dapat Ditampilkan Silahkan Klik Download Untuk Melihat" />
+                @endif
+
+                </div>
         </div>
     </div>
 </section>

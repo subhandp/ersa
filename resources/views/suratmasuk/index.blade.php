@@ -2,9 +2,9 @@
 @section('content')
 <section class="content card" style="padding: 10px 10px 10px 10px ">
     <div class="box">
-        @if(session('sukses'))
+         @if(session('sukses'))
         <div class="alert alert-success" role="alert">
-            {{session('sukses')}}
+            Data Surat Masuk Berhasil Ditambahkan <a href="{{session('sukses')}}">Lihat</a>
         </div>
         @endif
         <div class="row">
@@ -22,12 +22,11 @@
         </div>
         <div class="row table-responsive">
             <div class="col">
-                <table class="table table-hover table-head-fixed" id='tabelSuratmasuk'>
+                <table class="table table-hover table-head-fixed " id='tabelSuratmasuk' style="width:100%">
                     <thead>
                         <tr class="bg-light">
                             <th>No.</th>
                             <th>Isi Ringkas</th>
-                            <th>File</th>
                             <th>Asal Surat</th>
                             <th>Kode</th>
                             <th>No. Surat</th>
@@ -44,7 +43,6 @@
                         <tr>
                             <td>{{$no}}</td>
                             <td>{{$suratmasuk->isi}}</td>
-                            <td><a href="/suratmasuk/{{$suratmasuk->id}}/tampil">{{$suratmasuk->filemasuk}}</a></td>
                             <td>{{$suratmasuk->asal_surat}}</td>
                             <td>{{$suratmasuk->kode}}</td>
                             <td>{{$suratmasuk->no_surat}}</td>
