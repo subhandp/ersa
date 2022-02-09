@@ -45,9 +45,9 @@ class FilepondController extends Controller
         $type = explode('-',$request)[0];
         $id = explode('-',$request)[1];
 
-        if($type = 'masuk')
+        if($type == 'masuk')
             $suratfile=\App\SuratMasukFile::find($id);
-        else if($type = 'keluar')
+        else if($type == 'keluar')
             $suratfile=\App\SuratKeluarFile::find($id);
             
         $pathToFile = storage_path('app/'.$suratfile->filepath.'/'.$suratfile->filename);
@@ -69,14 +69,16 @@ class FilepondController extends Controller
         $type = explode('-',$request)[0];
         $id = explode('-',$request)[1];
 
-        if($type = 'masuk'){
+        if($type == 'masuk'){
             $suratmasukfile=\App\SuratMasukFile::find($id);
             $filepath = $suratmasukfile->filepath;
             $this->rrmdir(storage_path('app/'.$filepath));
             $suratmasukfile->delete();
         }
-        else if($type = 'keluar'){
+        else if($type == 'keluar'){
             $suratkeluarfile=\App\SuratKeluarFile::find($id);
+            $filepath = $suratkeluarfile->filepath;
+            $this->rrmdir(storage_path('app/'.$filepath));
             $suratkeluarfile->delete();
         }
 

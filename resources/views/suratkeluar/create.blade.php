@@ -19,18 +19,19 @@
             <div class="row">
                 <div class="col-6">
                     <label for="nomorsurat">Nomor Surat</label>
-                    <input value="{{old('no_surat')}}" name="no_surat" type="text" class="form-control" id="nomorsurat"
+                    <input value="{{$suratkeluar->no_surat ?? old('no_surat')}}" name="no_surat" type="text" class="form-control" id="nomorsurat"
                         placeholder="Nomor Surat" required>
                     <label for="asalsurat">Tujuan Surat</label>
-                    <input value="{{old('tujuan_surat')}}" name="tujuan_surat" type="text" class="form-control bg-light"
+                    <input value="{{$suratkeluar->tujuan_surat ?? old('tujuan_surat')}}" name="tujuan_surat" type="text" class="form-control bg-light"
                         id="tujuansurat" placeholder="Tujuan Surat" required>
                     <label for="isisurat">Isi Ringkas</label>
                     <textarea name="isi" class="form-control bg-light" id="isisurat" rows="3"
-                        placeholder="Isi Ringkas Surat Keluar" required>{{old('isi')}}</textarea>
+                        placeholder="Isi Ringkas Surat Keluar" required> {{$suratkeluar->isi ?? old('isi')}}</textarea>
                     <label for="kode">Kode Klasifikasi</label>
                     <select name="kode" class="custom-select my-1 mr-sm-2 bg-light" id="inlineFormCustomSelectPref"
-                        required>
-                        <option value="">-- Pilih Klasifikasi Surat --</option>
+                    value="{{$suratkeluar->kode ?? ''}}" required>
+                
+                        <option selected value="{{$suratkeluar->kode ?? old('kode')}}">{{$suratkeluar->kode ?? old('kode')}}</option>
                         @foreach($data_klasifikasi as $klasifikasi)
                         <option value="{{$klasifikasi->kode}}">{{$klasifikasi->nama}} ( {{$klasifikasi->kode}} )
                         </option>
@@ -39,23 +40,52 @@
                 </div>
                 <div class="col-6">
                     <label for="tglsurat">Tanggal Surat</label>
-                    <input value="{{old('tgl_surat')}}" name="tgl_surat" type="date" class="form-control bg-light"
+                    <input value="{{$suratkeluar->tgl_surat ?? old('tgl_surat')}}" name="tgl_surat" type="date" class="form-control bg-light"
                         id="tglsurat" required>
                     <label for="tglcatat">Tanggal Catat</label>
-                    <input value="{{old('tgl_catat')}}" name="tgl_catat" type="date" class="form-control bg-light"
+                    <input value="{{$suratkeluar->tgl_catat ?? old('tgl_catat')}}" name="tgl_catat" type="date" class="form-control bg-light"
                         id="tglcatat" required>
+
+                        <!-- <input checked="true" type="radio" name="tab" value="igotnone" onclick="show1();" />
+                        Input
+                        <input type="radio" name="tab" value="igottwo" onclick="show2();" />
+                        Pilih -->
+
                     <label for="keterangan">Keterangan</label>
-                    <input value="{{old('keterangan')}}" name="keterangan" type="text" class="form-control bg-light"
-                        id="keterangan" placeholder="Keterangan" required>
-                    <div class="custom-file">
-                        <label for="exampleFormControlFile1">File</label>
-                        <input name="filekeluar" type="file" class="form-control-file" id="validatedCustomFile"
-                            required>
-                        <small id="validatedCustomFile" class="text-danger">
-                            Pastikan file anda ( jpg,jpeg,png,doc,docx,pdf ) !!!
-                        </small>
+                    <input value="{{$suratkeluar->keterangan ?? old('keterangan')}}" name="keterangan" type="text" class="form-control bg-light"
+                        id="input-keterangan" placeholder="Keterangan" required>
+                    
+                    <!-- <select name="keterangan" id="select-keterangan" class="custom-select hide">
+                        <option selected>Rekomendasi Tanda Daftar Pura</option>
+                        <option value="Tanda daftar pura">Tanda Daftar Pura</option>
+                        <option value="Proposal bantuan ke pusat">Proposal bantuan ke pusat</option>
+                    </select> -->
+
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="scan">Scan berkas</label>
+                        <div class="container">
+                            <div class="row" id="th_container">
+                                <div class="col-md-12 mb-1 text-secondary" id="th_container_empty">No scanned images</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" id="btn-scan">Scan</button>
+                                    <button class="btn btn-success" id="btn-upload" style="display:none;">Upload image(s)</button>
+                                    <p class="text-danger mt-1" id="download-app" style="display:none;">No Scan app application found in your machine. Please download, install and open first then refresh the browser. <a href="Scan_App_SetUp.msi" download>Download app</a></p>
+                                    <br><br>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <input name="upload[]" type="file" id="upload"  multiple/>
                     </div>
                 </div>
+
+
             </div>
             <hr>
             <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i> SIMPAN</button>
@@ -65,3 +95,19 @@
     </div>
 </section>
 @endsection
+
+@section('file-pond-create')
+<script>
+    FilePond.setOptions({
+        server: {
+            process:  '/filepond/process',
+            revert: '/filepond/revert',
+            headers: {
+                'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+            }
+        },
+        
+    });
+</script>
+@endsection
+

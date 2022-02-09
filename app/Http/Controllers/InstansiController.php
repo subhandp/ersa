@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Instansi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class InstansiController extends Controller
 {
@@ -14,7 +16,7 @@ class InstansiController extends Controller
      */
     public function index(Instansi $instansi)
     {
-        $instansi = Instansi::all();
+        $instansi = Instansi::where('users_id', Auth::id())->get();
         $class_menu_pengaturan = "menu-open";
         $class_menu_pengaturan_pengguna = "";
         $class_menu_pengaturan_instansi = "sub-menu-open";
@@ -57,6 +59,7 @@ class InstansiController extends Controller
             'pimpinan' => $request->pimpinan,
             'email' => $request->email,
             'file' => 'uploads/logo/'.$newlogo,
+            'users_id' => Auth::id()
         ]);
 
         $filelogo->move('uploads/logo/', $newlogo);

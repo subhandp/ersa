@@ -20,7 +20,7 @@
                         <!-- small box -->
                         <div class="small-box bg-light">
                             <div class="inner">
-                                <h3>{{DB::table('suratmasuk')->count()}}</h3>
+                                <h3>{{ $suratmasuk }}</h3>
                                 <p>Surat Masuk</p>
                             </div>
                             <div class="icon">
@@ -35,7 +35,7 @@
                         <!-- small box -->
                         <div class="small-box bg-light">
                             <div class="inner">
-                                <h3>{{DB::table('suratkeluar')->count()}}</h3>
+                                <h3>{{ $suratkeluar }}</h3>
                                 <p>Surat Keluar</p>
                             </div>
                             <div class="icon">
@@ -49,7 +49,7 @@
                         <!-- small box -->
                         <div class="small-box bg-light">
                             <div class="inner">
-                                <h3>{{DB::table('klasifikasi')->count()}}</h3>
+                                <h3>{{ $klasifikasi }}</h3>
                                 <p>Klasifikasi</p>
                             </div>
                             <div class="icon">
@@ -65,7 +65,7 @@
                         <!-- small box -->
                         <div class="small-box bg-light">
                             <div class="inner">
-                                <h3>{{DB::table('users')->count()}}</h3>
+                                <h3>{{ $pengguna }}</h3>
                                 <p>Pengguna</p>
                             </div>
                             <div class="icon">

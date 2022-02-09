@@ -22,6 +22,9 @@
                     <label for="name">Nama</label>
                     <input name="name" type="text" class="form-control bg-light" id="name" placeholder="Nama"
                         value="{{$data_pengguna->name}}" required>
+                        <label for="username">Username</label>
+                    <input name="username" class="form-control bg-light" id="username" placeholder="Username"
+                    value="{{$data_pengguna->username}}"required>
                     <label for="email">Email</label>
                     <input name="email" type="email" class="form-control bg-light" id="email" placeholder="Email"
                         value="{{$data_pengguna->email}}" required>

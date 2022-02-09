@@ -35,6 +35,7 @@
                     <thead>
                         <tr class="bg-light">
                             <th>No.</th>
+                            <th>Username</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Level</th>
@@ -47,6 +48,7 @@
                         <?php $no++ ;?>
                         <tr>
                             <td>{{$no}}</td>
+                            <td>{{$pengguna->username}}</td>
                             <td>{{$pengguna->name}}</td>
                             <td>{{$pengguna->email}}</td>
                             <td>{{$pengguna->role}}</td>

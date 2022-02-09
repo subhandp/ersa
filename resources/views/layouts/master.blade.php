@@ -56,6 +56,13 @@
 
 
     <style>
+        .logo {
+            max-width: 100%;
+            width: 150px;
+        }
+        .hide {
+            display: none;
+        }
 		.ex_caption {
 			font-weight: 300;
 		}
@@ -87,6 +94,87 @@
 		.th_progress .progress-bar {
 			width: 0%;
 		}
+
+        /* Style the Image Used to Trigger the Modal */
+        #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        }
+
+        #myImg:hover {opacity: 0.7;}
+
+        /* The Modal (background) */
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (Image) */
+        .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        }
+
+        /* Caption of Modal Image (Image Text) - Same Width as the Image */
+        #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+        /* Add Animation - Zoom in the Modal */
+        .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+        /* The Close Button */
+        .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px){
+        .modal-content {
+            width: 100%;
+        }
+        }
+
 	</style>
 
 </head>
@@ -190,79 +278,12 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview 
-                        @isset($class_menu_agenda)
-                            {{ $class_menu_agenda }}
-                        @endisset
+                        
+                        <li class="nav-item 
+                        @isset($class_menu_klasifikasi)
+                            {{ $class_menu_klasifikasi }}
+                        @endisset 
                         ">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Buku Agenda
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/suratmasuk/agenda" class="nav-link 
-                                    @isset($class_menu_agenda_surat_masuk)
-                                        {{ $class_menu_agenda_surat_masuk }}
-                                    @endisset
-                                    ">
-                                        <i class="far fa-envelope nav-icon"></i>
-                                        <p>Agenda Surat Masuk</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/suratkeluar/agenda" class="nav-link 
-                                    
-                                    @isset($class_menu_agenda_surat_keluar)
-                                        {{ $class_menu_agenda_surat_keluar }}
-                                    @endisset
-                                    
-                                    ">
-                                        <i class="far fa-envelope-open nav-icon"></i>
-                                        <p>Agenda Surat Keluar</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview 
-                        @isset($class_menu_galeri)
-                            {{ $class_menu_galeri }}
-                        @endisset
-                        ">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-images"></i>
-                                <p>
-                                    Galeri File
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/suratmasuk/galeri" class="nav-link 
-                                    @isset($class_menu_galeri_surat_masuk)
-                                        {{ $class_menu_galeri_surat_masuk }}
-                                    @endisset
-                                    ">
-                                        <i class="fas fa-sign-in-alt nav-icon"></i>
-                                        <p>File Surat Masuk</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/suratkeluar/galeri" class="nav-link
-                                    @isset($class_menu_galeri_surat_keluar)
-                                        {{ $class_menu_galeri_surat_keluar }}
-                                    @endisset
-                                    ">
-                                        <i class="fas fa-sign-out-alt nav-icon"></i>
-                                        <p>File Surat Keluar</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
                             <a href="/klasifikasi/index" class="nav-link">
                                 <i class="nav-icon fas fa-layer-group"></i>
                                 <p>
@@ -321,6 +342,44 @@
 
             @yield('content')
 
+            <div id="myModal" class="modal">
+
+                <!-- The Close Button -->
+                <span class="close">&times;</span>
+
+                <!-- Modal Content (The Image) -->
+                <img class="modal-content" id="img01">
+
+                <!-- Modal Caption (Image Text) -->
+                <div id="caption"></div>
+            </div>
+
+            <div class="modal fade scandetail" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div style="max-height:1200px;overflow:scroll;">
+                <canvas id="myCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade dalert" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Connection Failed
+            </div>
+            <div class="modal-body">
+                No Scan app application found in your machine please download,install and open first then refresh the browser.
+                <a href="~/SrcFile/Scan_App_SetUp.msi" download>Download Files</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
         </div>
         <!-- /.content-wrapper -->
 
@@ -359,88 +418,84 @@
     <script src="/adminlte/js/demo.js"></script>
     <!-- page script -->
 
-    <!-- piexif.min.js is needed for auto orienting image files OR when restoring exif data in resized images and when you
-    wish to resize images before upload. This must be loaded before fileinput.min.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/plugins/piexif.min.js" type="text/javascript"></script> -->
-    
-    <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
-        This must be loaded before fileinput.min.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/plugins/sortable.min.js" type="text/javascript"></script> -->
-    
-       
-    <!-- the main fileinput plugin script JS file -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/fileinput.min.js"></script> -->
-    
-    <!-- following theme script is needed to use the Font Awesome 5.x theme (`fas`). Uncomment if needed. -->
-    <!-- script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/themes/fas/theme.min.js"></script -->
-    
-    <!-- optionally if you need translation for your language then include the locale file as mentioned below (replace LANG.js with your language locale) -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/locales/LANG.js"></script> -->
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
-    <!-- include jQuery library -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script> -->
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 
-<!-- include FilePond library -->
-<!-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> -->
-
-<!-- include FilePond plugins -->
-<!-- <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script> -->
-
-<!-- include FilePond jQuery adapter -->
-<!-- <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script> -->
-
-<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-
-<script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-
-<script>
-
-FilePond.registerPlugin(
-  FilePondPluginImagePreview,
-  FilePondPluginImageEdit,
-  FilePondPluginFilePoster
-);
-
-// var file = "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png";
-
-// var files = [
-//     {
-//       source: file,
-//       options: {
-//         type: "input",
-//         file: {
-//           name: "Image_created_with_a_mobile_phone.png",
-//           type: "image/png"
-//         }
-//       }
-//     }
-//   ];
-
-const pond = FilePond.create(
-        document.querySelector('input[id="upload"]'), {
-        }
-    );
-
-
-</script>
-
-@yield('file-pond-create')
-@yield('file-pond-edit')
-
-
+    <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 
     <script>
+
+        FilePond.registerPlugin(
+        FilePondPluginImagePreview,
+        FilePondPluginImageEdit,
+        FilePondPluginFilePoster
+        );
+
+        const pond = FilePond.create(
+            document.querySelector('input[id="upload"]'), {
+            }
+        );
+
+        
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        const captionText = document.getElementById("caption");
+
+        pond.on('activatefile', (file) => {
+            const urlCreator = window.URL || window.webkitURL;
+            const imageUrl = urlCreator.createObjectURL(file.file);
+            modal.style.display = "block";
+            modalImg.src = imageUrl;
+            captionText.innerHTML = file.filename;
+            
+        });
+
+         // Get the <span> element that closes the modal
+         const span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            if (evt.keyCode == 27) {
+                modal.style.display = "none";
+            }
+        };
+
+    </script>
+
+    @yield('file-pond-create')
+    @yield('file-pond-edit')
+
+    <script>
+
+
+        function show1(){
+            document.getElementById('select-keterangan').style.display = 'none';
+            document.getElementById('input-keterangan').style.display ='block';
+
+        }
+        function show2(){
+            document.getElementById('input-keterangan').style.display ='none';
+            document.getElementById('select-keterangan').style.display = 'block';
+
+        }
+
         $(function () {
             
             $("#tabelSuratmasuk").DataTable({
                 responsive: true
             });
-            $("#tabelSuratkeluar").DataTable();
+            $("#tabelSuratkeluar").DataTable({
+                responsive: true
+            });
             $("#tabelAgendaMasuk").DataTable();
             $("#tabelAgendaKeluar").DataTable();
             
@@ -496,10 +551,7 @@ const pond = FilePond.create(
 
                     // const blob = e.data;
                     // blob = blob.slice(0, blob.size, "image/jpeg")
-                    const blob = new Blob([e.data], {
-                        type: 'image/jpeg'
-                        });
-                    pond.addFile(blob);
+                    
                     // $('#exampleFormControlFile1').fileinput('addToStack', e.data);
                     // var files = $('#exampleFormControlFile1').fileinput('getFileList'); 
                     // $('#exampleFormControlFile1').fileinput('readFiles', files,th_img_id); 
@@ -514,11 +566,13 @@ const pond = FilePond.create(
 				download_app.style.display = '';
 			}
 
-			btn_scan.addEventListener('click', function(){
+			btn_scan.addEventListener('click', function(e){
+                e.preventDefault();
 				ws.send("1100");
 			}, false);
 
-			btn_upload.addEventListener('click', function(){
+			btn_upload.addEventListener('click', function(e){
+                e.preventDefault();
 				btn_upload.style.display = 'none';
 				Array.from(document.querySelectorAll("img.th_img")).forEach(e => { uploadImage(e); });
 			}, false);
@@ -646,9 +700,12 @@ const pond = FilePond.create(
 						src_img.removeAttribute("id");
 					}
 				}
-				xhr.open("POST", "/suratmasuk/tambah");
-				xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
-				xhr.send(fd);
+				
+                const blob = new Blob([imageBlob], {
+                        type: 'image/jpeg'
+                        });
+                pond.addFile(blob);
+
 			});
 		}
 

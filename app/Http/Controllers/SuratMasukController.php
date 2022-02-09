@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\SuratMasuk;
 use App\SuratMasukFile;
 use App\Instansi;
+use App\Klasifikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;  
 use Illuminate\Http\Request;
@@ -14,9 +15,11 @@ use Excel;
 
 class SuratmasukController extends Controller
 {
+
+   
     public function index()
     {
-        $data_suratmasuk = SuratMasuk::all();
+        $data_suratmasuk = SuratMasuk::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->get();
         $class_menu_surat = "menu-open";
         $class_menu_surat_masuk = "sub-menu-open";
         $class_menu_surat_keluar = "";
@@ -27,10 +30,19 @@ class SuratmasukController extends Controller
     }
 
     //function untuk masuk ke view Tambah
-    public function create()
+   
+
+    public function create(Request $request)
     {
-        $data_klasifikasi = \App\Klasifikasi::all();
-        return view('suratmasuk/create', ['data_klasifikasi' => $data_klasifikasi]);
+        $data_klasifikasi = Klasifikasi::where('users_id', Auth::id())->get();
+        if($request->get("templateid")){
+            if($suratmasuk = SuratMasuk::where('users_id', Auth::id())->find($request->get("templateid"))){
+                return view('suratmasuk/create',compact('suratmasuk','data_klasifikasi'));
+            }
+        }
+        return view('suratmasuk/create',compact('data_klasifikasi'));
+        
+        
     }
 
     //function untuk tambah
@@ -86,37 +98,32 @@ class SuratmasukController extends Controller
      }
 
     //function untuk melihat file
-    public function tampil($id_suratmasuk)
-    {
-        $suratmasuk = \App\SuratMasuk::find($id_suratmasuk);
-        $fileIsPdf = str_contains($suratmasuk->filemasuk, '.pdf');
-        return view('suratmasuk/tampil',compact('fileIsPdf','suratmasuk'));
-    }
+    // public function tampil($id_suratmasuk)
+    // {
+    //     $suratmasuk = \App\SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk);
+    //     $fileIsPdf = str_contains($suratmasuk->filemasuk, '.pdf');
+    //     return view('suratmasuk/tampil',compact('fileIsPdf','suratmasuk'));
+    // }
 
     //function untuk download file
-    public function downfunc(){
+    // public function downfunc(){
 
-        $downloads=DB::table('suratmasuk')->get();
-        return view('suratmasuk.tampil',compact('downloads'));
-    }
-
-    public function agendamasukdownload_excel(){
-        $suratmasuk = \App\SuratMasuk::select('id', 'isi', 'asal_surat', 'kode', 'no_surat', 'tgl_surat', 'tgl_terima', 'keterangan')->get();
-        return Excel::create('Agenda_Surat_Masuk', function($excel) use ($suratmasuk){
-            $excel->sheet('Agenda_Surat_Masuk',function($sheet) use ($suratmasuk){
-                $sheet->fromArray($suratmasuk);
-            });
-        })->download('xls');
-    }
+    //     $downloads=DB::table('suratmasuk')->get();
+    //     return view('suratmasuk.tampil',compact('downloads'));
+    // }
 
     //function untuk masuk ke view edit
     public function edit ($id_suratmasuk)
     {
-        $data_klasifikasi = \App\Klasifikasi::all();
-        $suratmasuk = SuratMasuk::find($id_suratmasuk);
-        $suratfiles = SuratMasuk::find($id_suratmasuk)->suratmasukfile;
+        $class_menu_surat = "menu-open";
+        $class_menu_surat_masuk = "sub-menu-open";
+        $class_menu_surat_keluar = "";
+
+        $data_klasifikasi = Klasifikasi::where('users_id', 1)->get();
+        $suratmasuk = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk);
+        $suratfiles = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk)->suratmasukfile;
         $type = 'masuk';
-        return view('suratmasuk/edit',compact('type','suratfiles','suratmasuk','data_klasifikasi'));
+        return view('suratmasuk/edit',compact('class_menu_surat', 'class_menu_surat_masuk', 'class_menu_surat_keluar', 'type','suratfiles','suratmasuk','data_klasifikasi'));
     }
 
     public function update (Request $request, $id_suratmasuk)
@@ -128,7 +135,7 @@ class SuratmasukController extends Controller
             'isi' => 'min:5',
             'keterangan' => 'min:5',
         ]);
-        $suratmasuk = \App\SuratMasuk::find($id_suratmasuk);
+        $suratmasuk = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk);
         $suratmasuk->update($request->all());
         //Untuk Update File
         
@@ -157,45 +164,39 @@ class SuratmasukController extends Controller
         return redirect('suratmasuk/'.$id_suratmasuk.'/edit') ->with('sukses','Data Surat Masuk Berhasil Diedit');
     }
 
+    private function rrmdir($dir)
+    {
+        if (is_dir($dir))
+        {
+        $objects = scandir($dir);
+
+        foreach ($objects as $object)
+        {
+            if ($object != '.' && $object != '..')
+            {
+                if (filetype($dir.'/'.$object) == 'dir') {rrmdir($dir.'/'.$object);}
+                else {unlink($dir.'/'.$object);}
+            }
+        }
+
+        reset($objects);
+        rmdir($dir);
+        }
+    }
+
     //function untuk hapus
     public function delete($id_suratmasuk)
     {
-        $suratmasuk=\App\SuratMasuk::find($id_suratmasuk);
+        $suratmasuk= SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk);
+        $suratfiles = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk)->suratmasukfile;
+        foreach($suratfiles as $suratfile => $folder){
+            $suratfile=\App\SuratMasukFile::find($folder->id);
+            $suratfile->delete();
+            $path = storage_path('app/'.$folder->filepath);
+            $this->rrmdir($path);
+        }
         $suratmasuk->delete();
-        return redirect('suratmasuk/index')->with('sukses','Data Surat Masuk Berhasil Dihapus');
+        return redirect('suratmasuk/index') ->with("sukseshapus","Data Surat Masuk Berhasil Dihapus. No {$suratmasuk->no_surat} ");
     }
-
-    //Function Untuk Agenda Surat Masuk
-    public function agenda(Request $request)
-    {
-        $data_suratmasuk = \App\SuratMasuk::all();
-        $class_menu_agenda = "menu-open";
-        $class_menu_agenda_surat_masuk = "sub-menu-open";
-        $class_menu_agenda_surat_keluar = "";
-        return view('suratmasuk.agenda', compact('data_suratmasuk','class_menu_agenda','class_menu_agenda_surat_masuk','class_menu_agenda_surat_keluar'));
-    }
-
-    //Function Untuk Download Agenda Surat Masuk
-    public function agendamasukcetak_pdf(Request $request)
-    {
-        $inst = Instansi::first();
-        $suratmasuk = SuratMasuk::all();
-        $data = ['title' => 'Welcome to belajarphp.net'];
-
-        $pdf = PDF::loadview('suratmasuk.cetakagendaPDF', compact('suratmasuk', 'inst'));
-        return $pdf->stream();
-    }
-
-    //Function Untuk Galeri Surat Masuk
-    public function galeri(Request $request)
-    {
-        $data_suratmasuk = \App\SuratMasuk::all();
-        $class_menu_galeri = "menu-open";
-        $class_menu_galeri_surat_masuk = "sub-menu-open";
-        $class_menu_galeri_surat_keluar = "";
-        $fileIsPdf = false;
-        return view('suratmasuk.galeri', compact('fileIsPdf','data_suratmasuk','class_menu_galeri','class_menu_galeri_surat_masuk','class_menu_galeri_surat_keluar'));
-
-    //    return view('suratmasuk.galeri',['data_suratmasuk'=> $data_suratmasuk]);
-    }
+   
 }

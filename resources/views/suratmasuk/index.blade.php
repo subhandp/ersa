@@ -7,6 +7,13 @@
             Data Surat Masuk Berhasil Ditambahkan <a href="{{session('sukses')}}">Lihat</a>
         </div>
         @endif
+
+        @if(session('sukseshapus'))
+        <div class="alert alert-success" role="alert">
+            {{session('sukseshapus')}}
+        </div>
+        @endif
+
         <div class="row">
             <div class="col">
                 <h3><i class="nav-icon fas fa-envelope my-1 btn-sm-1"></i> Surat Masuk</h3>
@@ -52,7 +59,7 @@
                             <td>
                                 <a href="/suratmasuk/{{$suratmasuk->id}}/edit"
                                     class="btn btn-primary btn-sm my-1 mr-sm-1 btn-block"><i
-                                        class="nav-icon fas fa-pencil-alt"></i> Edit</a>
+                                        class="nav-icon fas fa-pencil-alt"></i> Edit / Lihat</a>
                                 <a href="{{ route('disposisi.index', $suratmasuk->id) }}"
                                     class="btn btn-primary btn-sm my-1 mr-sm-1 btn-block"><i
                                         class="fas fa-file-alt"></i> Disposisi</a>
@@ -62,6 +69,7 @@
                                     onclick="return confirm('Hapus Data ?')"><i class="nav-icon fas fa-trash"></i>
                                     Hapus</a>
                                 @endif
+                                <a href="/suratmasuk/create?templateid={{$suratmasuk->id}}" class="btn btn-default btn-sm my-1 mr-sm-1 btn-block">duplikat</a>
                             </td>
                         </tr>
 

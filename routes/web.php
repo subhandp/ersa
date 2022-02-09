@@ -33,10 +33,6 @@ Route::group(['middleware' => ['auth','checkRole:admin,petugas']], function () {
     Route::get('/suratmasuk/{id}/edit','SuratMasukController@edit');
     Route::post('/suratmasuk/{id}/update','SuratMasukController@update');
     Route::get('/suratmasuk/{id}/delete','SuratMasukController@delete');
-    Route::get('/suratmasuk/agenda','SuratMasukController@agenda');
-    Route::get('/suratmasuk/agendamasukcetak_pdf', 'SuratMasukController@agendamasukcetak_pdf');
-    Route::get('/suratmasuk/agendamasukdownload_excel', 'SuratMasukController@agendamasukdownload_excel')->name('suratmasuk.downloadexcel');
-    Route::get('/suratmasuk/galeri','SuratMasukController@galeri');
 
     Route::get('/suratkeluar', 'SuratKeluarController@index');
     Route::get('/suratkeluar/index','SuratKeluarController@index');
@@ -47,10 +43,6 @@ Route::group(['middleware' => ['auth','checkRole:admin,petugas']], function () {
     Route::get('/suratkeluar/{id}/edit','SuratKeluarController@edit');
     Route::post('/suratkeluar/{id}/update','SuratKeluarController@update');
     Route::get('/suratkeluar/{id}/delete','SuratKeluarController@delete');
-    Route::get('/suratkeluar/agenda','SuratKeluarController@agenda');
-    Route::get('/suratkeluar/agendakeluarcetak_pdf','SuratKeluarController@agendakeluarcetak_pdf');
-    Route::get('/suratkeluar.agendakeluardownload_excel','SuratKeluarController@agendakeluardownload_excel')->name('suratkeluar.downloadexcel');
-    Route::get('/suratkeluar/galeri','SuratKeluarController@galeri');
 
 
     Route::get('/klasifikasi', 'KlasifikasiController@index');
@@ -61,8 +53,6 @@ Route::group(['middleware' => ['auth','checkRole:admin,petugas']], function () {
     Route::post('/klasifikasi/{id}/update','KlasifikasiController@update');
     Route::get('/klasifikasi/{id}/delete','KlasifikasiController@delete');
 
-    //Route untuk Modal Import Data
-    // Route::post('/klasifikasi/import','KlasifikasiController@importexcel')->name('klasifikasi.import');
     Route::post('/klasifikasi.import', 'KlasifikasiController@import');
 
     Route::get('disposisi/{suratmasuk}', 'DisposisiController@index')->name('disposisi.index');
@@ -72,6 +62,10 @@ Route::group(['middleware' => ['auth','checkRole:admin,petugas']], function () {
     Route::get('disposisi/{suratmasuk}/{id}', 'DisposisiController@update')->name('disposisi.update');
     Route::delete('disposisi/{suratmasuk}/{id}', 'DisposisiController@destroy')->name('disposisi.destroy');
     Route::get('/disposisi/{suratmasuk}/{id}/download', 'DisposisiController@download')->name('disposisi.download');
+
+    Route::get('download/zip', 'DownloadController@zip')->name('download.zip');
+
+
 });
 
 Route::group(['middleware' => ['auth','checkRole:admin']], function () {
@@ -86,10 +80,3 @@ Route::group(['middleware' => ['auth','checkRole:admin,petugas']], function () {
     Route::get('filepond/remove/{requestid}', 'FilepondController@remove')->name('filepond.remove');
 
 });
-
-// Route::group(['middleware' => config('filepond.middleware', ['web', 'auth'])], function () {
-//     Route::post(config('filepond.server.url', '/filepond'), [config('filepond.controller', FilepondController::class), 'process'])->name('filepond-process');
-//     Route::patch(config('filepond.server.url', '/filepond'), [config('filepond.controller', FilepondController::class), 'patch'])->name('filepond-patch');
-//     Route::get(config('filepond.server.url', '/filepond'), [config('filepond.controller', FilepondController::class), 'head'])->name('filepond-head');
-//     Route::delete(config('filepond.server.url', '/filepond'), [config('filepond.controller', FilepondController::class), 'revert'])->name('filepond-revert');
-// });

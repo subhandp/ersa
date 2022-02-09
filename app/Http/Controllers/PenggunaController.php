@@ -24,6 +24,11 @@ class PenggunaController extends Controller
         // return view('pengguna.index', compact('data_pengguna'));
     }
 
+    public function username()
+    {
+        return 'username';
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -43,14 +48,18 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:users|min:5',
+            'username' => 'required',
             'email' => 'required|unique:users|email',
+            'password' => 'required',
+
         ]);
 
         $pengguna = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->input('password')),
+            'account_year' => 2021,
             'role' => $request->role,
         ]);
 
@@ -92,12 +101,14 @@ class PenggunaController extends Controller
         $pengguna = User::findorfail($id);
 
         $this->validate($request, [
+            'username' => 'required',
             'name' => 'required|min:5',
             'email' => 'required|email',
         ]);
 
         $data_pengguna = [
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->input('password')),
             'role' => $request->role,

@@ -67,7 +67,7 @@
                                         <button class="btn btn-primary" id="btn-scan">Scan</button>
                                         <button class="btn btn-success" id="btn-upload" style="display:none;">Upload image(s)</button>
                                         <p class="text-danger mt-1" id="download-app" style="display:none;">No Scan app application found in your machine. Please download, install and open first then refresh the browser. <a href="Scan_App_SetUp.msi" download>Download app</a></p>
-                                        <p class="mt-3">This expample shows how to make preview scanned images, rotate images if necessary and upload images to the server.</p>
+                                        <br><br>
                                     </div>
                                 </div>
 
@@ -76,7 +76,12 @@
                             <input name="upload[]" type="file" id="upload"  multiple/>  
                     </div>
                 </div>
+
+                
             </div>
+
+            <a href="/download/zip?type=masuk&id={{$suratmasuk->id}}" class="btn btn-default btn-sm my-1 mr-sm-1 btn-block"><i class="nav-icon fas fa-download"></i> Download semua file</a>
+
             <hr>
            
             
@@ -116,20 +121,8 @@
             remove: (src, load) => {
                 console.log("remove", src);
                 const xhr = new XMLHttpRequest();
-                // xhr.onload = function(){
-                //     const removeItemButtons = document.querySelectorAll('.filepond--action-remove-item');
-                //     removeItemButtons.forEach(removeItemButton => {
-                //         removeItemButton.disabled = false;
-                //     });
-                // }
                 xhr.onloadend = function (response) {
-                    
                     load();
-                    // console.log(response);
-                    // const removeItemButtons = document.querySelectorAll('.filepond--action-remove-item');
-                    // removeItemButtons.forEach(removeItemButton => {
-                    //     removeItemButton.disabled = true;
-                    // });
                 };
                 xhr.open('GET', '/filepond/remove/' + src);
                 xhr.send();
@@ -140,9 +133,6 @@
             }
         }
     });
-
-
-
 
 </script>
 @endsection
