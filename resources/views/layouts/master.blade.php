@@ -54,6 +54,9 @@
     rel="stylesheet"
 />
 
+<link href="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.css" rel="stylesheet">
+
+
 
     <style>
         .logo {
@@ -422,6 +425,7 @@
 
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.js"></script>
 
     <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
     <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
@@ -432,7 +436,8 @@
         FilePond.registerPlugin(
         FilePondPluginImagePreview,
         FilePondPluginImageEdit,
-        FilePondPluginFilePoster
+        FilePondPluginFilePoster,
+        FilePondPluginPdfPreview
         );
 
         const pond = FilePond.create(

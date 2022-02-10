@@ -73,21 +73,23 @@ class DownloadController extends Controller
 
             if($type == "masuk"){
                 $surat = SuratMasuk::where('users_id', Auth::id())->find($id);
-                if($surat)
-                    $suratfiles = SuratMasuk::where('users_id', Auth::id())->find($id)->suratmasukfile;
+                // if($surat)
+                $suratfiles = SuratMasuk::where('users_id', Auth::id())->find($id)->suratmasukfile;
                 
             }
             
     
             if ($type == "keluar"){
                 $surat = SuratKeluar::where('users_id', Auth::id())->find($id);
-                if($surat)
-                    $suratfiles = SuratKeluar::where('users_id', Auth::id())->find($id)->suratkeluarfile;
+                // if($surat)
+                $suratfiles = SuratKeluar::where('users_id', Auth::id())->find($id)->suratkeluarfile;
             }
-            
 
-            $fileName = $this->filter_filename($surat->no_surat).'.zip';
             
+            if($surat)
+                $fileName = $this->filter_filename($surat->no_surat).'.zip';
+            else 
+                return false;
             
         }
         
@@ -95,13 +97,17 @@ class DownloadController extends Controller
 
         if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
         {
+            $no = 1;
+            clearstatcache();
             foreach($suratfiles as $suratfile => $folder){
                 $files = File::files(storage_path('app/'.$folder->filepath));
                 foreach ($files as $key => $value) {
-                    $relativeNameInZipFile = basename($value);
+                    $relativeNameInZipFile = $no.'-'.basename($value);
                     $zip->addFile($value, $relativeNameInZipFile);
+                    $no++;
                 }
             }
+            
              
             $zip->close();
         }
