@@ -13,11 +13,21 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
-        DB::table('pegawai')->insert([
-            'pegawai_nama' => $faker->name,
-            'pegawai_jabatan' => $faker->jobTitle,
-            'pegawai_umur' => $faker->numberBetween(25,40),
-            'pegawai_alamat' => $faker->address
+        DB::table('users')->insert([
+            [
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'role' => 'admin',
+                'username' => '419322',
+                'account_year' => '2021'
+            ],
+            [
+                'name' => 'petugas',
+                'email' => 'petugas@gmail.com',
+                'role' => 'petugas',
+                'username' => '419333',
+                'account_year' => '2021'
+            ]
         ]);
         
     }
