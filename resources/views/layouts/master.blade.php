@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>eRSA Bimas Hindu</title>
+    <title>ERSA - Beta 1.0</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -22,14 +22,6 @@
     
     <link rel="stylesheet" href="/adminlte/css/sidebar-menu-feature.css">
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous"> -->
- 
-    <!-- alternatively you can use the font awesome icon library if using with `fas` theme (or Bootstrap 4.x) by uncommenting below. -->
-    <!-- link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" crossorigin="anonymous" -->
-    
-    <!-- the fileinput plugin styling CSS file -->
-    <!-- <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" /> -->
-
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
@@ -39,15 +31,7 @@
     />
 
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
-    <link
-        href="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css"
-        rel="stylesheet"
-    />
 
-    <link
-    href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css"
-    rel="stylesheet"
-/>
 
 <link
     href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css"
@@ -108,7 +92,7 @@
         #myImg:hover {opacity: 0.7;}
 
         /* The Modal (background) */
-        .modal {
+        .modalimage {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
         z-index: 1; /* Sit on top */
@@ -123,7 +107,7 @@
         }
 
         /* Modal Content (Image) */
-        .modal-content {
+        .modalimage-content {
         margin: auto;
         display: block;
         width: 80%;
@@ -143,7 +127,7 @@
         }
 
         /* Add Animation - Zoom in the Modal */
-        .modal-content, #caption {
+        .modalimage-content, #caption {
         animation-name: zoom;
         animation-duration: 0.6s;
         }
@@ -173,7 +157,7 @@
 
         /* 100% Image Width on Smaller Screens */
         @media only screen and (max-width: 700px){
-        .modal-content {
+        .modalimage-content {
             width: 100%;
         }
         }
@@ -192,7 +176,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                 </li>
-                <h3 class="font-weight-bold">eRSA BIMAS HINDU</h3>
+                <h3 class="font-weight-bold">elektronik - ARSIP SURAT</h3>
                 
 
             </ul>
@@ -282,7 +266,7 @@
                             </ul>
                         </li>
                         
-                        <li class="nav-item 
+  <li class="nav-item 
                         @isset($class_menu_klasifikasi)
                             {{ $class_menu_klasifikasi }}
                         @endisset 
@@ -345,13 +329,13 @@
 
             @yield('content')
 
-            <div id="myModal" class="modal">
+            <div id="myModalimage" class="modalimage">
 
                 <!-- The Close Button -->
                 <span class="close">&times;</span>
 
                 <!-- Modal Content (The Image) -->
-                <img class="modal-content" id="img01">
+                <img class="modalimage-content" id="img01">
 
                 <!-- Modal Caption (Image Text) -->
                 <div id="caption"></div>
@@ -421,32 +405,36 @@
     <script src="/adminlte/js/demo.js"></script>
     <!-- page script -->
 
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <!-- <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script> -->
 
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script src="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-pdf-preview/dist/filepond-plugin-pdf-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 
-    <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 
     <script>
 
         FilePond.registerPlugin(
         FilePondPluginImagePreview,
-        FilePondPluginImageEdit,
-        FilePondPluginFilePoster,
-        FilePondPluginPdfPreview
+        FilePondPluginPdfPreview,
+        FilePondPluginImageTransform,
+        FilePondPluginFileValidateSize
         );
 
         const pond = FilePond.create(
-            document.querySelector('input[id="upload"]'), {
-            }
-        );
+        document.querySelector('input[id="upload"]'),
+        {
+            imageTransformOutputQuality: 50,
+            labelMaxTotalFileSizeExceeded: 'Ukuran total keseluruhan file terlampaui',
+            labelMaxTotalFileSize: 'Total maksimum seluruh file adalah {filesize}',
+            maxTotalFileSize: '3MB'
+        });
 
         
-        const modal = document.getElementById("myModal");
+        const modal = document.getElementById("myModalimage");
         const modalImg = document.getElementById("img01");
         const captionText = document.getElementById("caption");
 

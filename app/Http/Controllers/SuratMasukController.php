@@ -119,7 +119,7 @@ class SuratmasukController extends Controller
         $class_menu_surat_masuk = "sub-menu-open";
         $class_menu_surat_keluar = "";
 
-        $data_klasifikasi = Klasifikasi::where('users_id', 1)->get();
+        $data_klasifikasi = Klasifikasi::where('users_id', Auth::id())->get();
         $suratmasuk = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk);
         $suratfiles = SuratMasuk::where('users_id', Auth::id())->find($id_suratmasuk)->suratmasukfile;
         $type = 'masuk';
