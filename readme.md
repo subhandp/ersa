@@ -1,7 +1,8 @@
 
 ## Description
 
-ERSA (elektronik arsip) adalah aplikasi pengarsipan surat.
+ERSA (elektronik arsip) adalah aplikasi pengarsipan surat. 
+Source Code aplikasi ini masih sederhana dan belum di optimalisasi karena hanya sebagai dasar pembuatan Ersa yang akan digunakan pada Instansi Kami
 
 ## feature
 1. Multi User (admin, petugas)
@@ -30,6 +31,13 @@ DB_PASSWORD=**password**
 ```bash
 php artisan serve
 ```
+
+8. Run instalation Scan_App_SetUp for Scanner App
+
+9. Open Scan App application from desktop shorcut
+
+10. Ready to scan document
+
 
 default admin user : 419322 <br>
 default password : 123456
