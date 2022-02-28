@@ -352,20 +352,6 @@
 </div>
 
 
-<div class="modal fade dalert" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                Connection Failed
-            </div>
-            <div class="modal-body">
-                No Scan app application found in your machine please download,install and open first then refresh the browser.
-                <a href="~/SrcFile/Scan_App_SetUp.msi" download>Download Files</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 
         </div>
         <!-- /.content-wrapper -->

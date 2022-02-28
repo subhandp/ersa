@@ -24,6 +24,31 @@ class CreateDisposisiTable extends Migration
             $table->integer('suratmasuk_id')->unsigned();
             $table->timestamps();
         });
+
+        Schema::table('suratmasuk', function($table) {
+            $table->foreign('users_id')
+                  ->references('id')->on('users')
+                  ->onDelete('restrict')->onUpdate('restrict');
+        });
+
+        Schema::table('suratkeluar', function($table) {
+            $table->foreign('users_id')
+                  ->references('id')->on('users')
+                  ->onDelete('restrict')->onUpdate('restrict');
+        });
+
+        Schema::table('disposisis', function($table) {
+            $table->foreign('users_id')
+                  ->references('id')->on('users')
+                  ->onDelete('restrict')->onUpdate('restrict');
+        });
+
+        Schema::table('disposisis', function($table) {
+            $table->foreign('suratmasuk_id')
+                  ->references('id')->on('suratmasuk')
+                  ->onDelete('cascade')->onUpdate('cascade');
+        });
+        
     }
 
     /**

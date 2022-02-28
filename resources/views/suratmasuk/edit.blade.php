@@ -66,7 +66,8 @@
                                     <div class="col-md-12">
                                         <button class="btn btn-primary" id="btn-scan">Scan</button>
                                         <button class="btn btn-success" id="btn-upload" style="display:none;">Upload image(s)</button>
-                                        <p class="text-danger mt-1" id="download-app" style="display:none;">No Scan app application found in your machine. Please download, install and open first then refresh the browser. <a href="Scan_App_SetUp.msi" download>Download app</a></p>
+                                        <p class="text-danger mt-1" id="download-app" style="display:none;">Aplikasi Scan tidak ditemukan. Tolong download, install kemudian buka aplikasi dan refresh browser
+                <a href="{{url('/Scan_App_SetUp.msi')}}" download>Download File</a></p>
                                         <br><br>
                                     </div>
                                 </div>
