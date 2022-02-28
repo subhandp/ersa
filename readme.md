@@ -49,3 +49,8 @@ default password : 123456
 1. Ubah Template ke Admin LTE Terbaru
 2. Upgrade ke Laravel 9
 3. Integrasi dengan Mobile App (Flutter)
+4. Kembangan aplikasi scan yang lebih lengkap fitur
+
+## Source
+1. Scan App : https://github.com/mgriit/ScanAppForWeb
+2. Arsip Surat: https://github.com/qkohst/surat_management
